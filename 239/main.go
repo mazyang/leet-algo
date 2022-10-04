@@ -2,7 +2,7 @@ package main
 
 import "container/list"
 
-// 单调队列
+// 单调递减队列
 func push(l *list.List, n int) {
 	for l.Len() != 0 && n > l.Back().Value.(int) {
 		tail := l.Back()
@@ -18,6 +18,7 @@ func pop(l *list.List, n int) {
 	}
 }
 
+// 头节点是最大元素
 func max(l *list.List) int {
 	return l.Front().Value.(int)
 }
@@ -26,12 +27,12 @@ func maxSlidingWindow(nums []int, k int) []int {
 	var res []int
 	window := list.New()
 	for i := 0; i < len(nums); i++ {
-		if i < k {
+		if i < k-1 {
 			push(window, nums[i])
 		} else {
-			pop(window, nums[i-k+1])
-			res = append(res, max(window))
 			push(window, nums[i])
+			res = append(res, max(window))
+			pop(window, nums[i-k+1])
 		}
 	}
 	return res

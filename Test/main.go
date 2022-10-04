@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // 单调递增栈：当前元素大于栈顶元素就一直出栈直到满足条件(当前元素大于栈顶元素或栈为空)
 func nextGreaterElement(nums []int) []int {
 	n := len(nums)
@@ -22,9 +24,9 @@ func nextGreaterElement(nums []int) []int {
 }
 
 func main() {
-	nums := []int{2, 1, 2, 4, 3}
-	a := nextGreaterElement(nums)
-	for _, i := range a {
-		print(i, " ")
+	arr := make([]int, 0)
+	for i := 0; i < 2000; i++ {
+		fmt.Println("len 为", len(arr), "cap 为", cap(arr))
+		arr = append(arr, i)
 	}
 }

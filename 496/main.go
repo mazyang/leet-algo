@@ -17,6 +17,7 @@ func nextGreaterElement(nums1 []int, nums2 []int) []int {
 		if len(s) == 0 {
 			greater[i] = -1
 		} else {
+			// 单调递减栈，最后一个元素就是当前元素的下一个更大的元素
 			greater[i] = s[len(s)-1]
 		}
 		s = append(s, nums2[i])
