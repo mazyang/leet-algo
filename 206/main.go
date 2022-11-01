@@ -22,6 +22,7 @@ func reverseList(head *ListNode) *ListNode {
 
 // 方法二：递归
 func reverseList2(head *ListNode) *ListNode {
+	// 如果只有一个节点，反转也是它自己
 	if head == nil && head.Next == nil {
 		return head
 	}

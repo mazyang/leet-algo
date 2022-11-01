@@ -1,14 +1,12 @@
 package main
 
-import "fmt"
-
-// 最长回文子串
 // 方法一：遍历字符串，每次以当前字符为中心或者以当前字符和下一个字符为中心向外扩散，得到最长的回文串
 func longestPalindrome(s string) string {
 	var res string
+	// 从中间向外扩展
 	for i := 0; i < len(s); i++ {
-		s1 := palindrome(s, i, i)
-		s2 := palindrome(s, i, i+1)
+		s1 := subString(i, i, s)
+		s2 := subString(i, i+1, s)
 		if len(s1) > len(res) {
 			res = s1
 		}
@@ -19,12 +17,13 @@ func longestPalindrome(s string) string {
 	return res
 }
 
-func palindrome(s string, l, r int) string {
-	for l >= 0 && r < len(s) && s[l] == s[r] {
-		l--
-		r++
+func subString(i, j int, s string) string {
+	for i >= 0 && j < len(s) && s[i] == s[j] {
+		i--
+		j++
 	}
-	return s[l+1 : r]
+	// s[i+1:j] 是左闭右开的区间
+	return s[i+1 : j]
 }
 
 // 方法二：动态规划
@@ -51,9 +50,4 @@ func longestPalindrome2(s string) string {
 		}
 	}
 	return s[start : start+mx]
-}
-
-func main() {
-	s := "abcdef"
-	fmt.Println(palindrome(s, 5, 5))
 }

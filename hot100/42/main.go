@@ -39,31 +39,31 @@ func trap(height []int) int {
 }
 
 // 方法二：栈
-func trap2(height []int) (ans int) {
-	var stack []int
-	for i, h := range height {
-		// 单调递减栈，如果当前元素大于栈顶元素就开始出栈
-		for len(stack) > 0 && h > height[stack[len(stack)-1]] {
-			top := stack[len(stack)-1]
+func trap2(height []int) int {
+	res := 0
+	stack := make([]int, 0)
+	current := 0
+	min := func(x, y int) int {
+		if x < y {
+			return x
+		}
+		return y
+	}
+	for current < len(height) {
+		for len(stack) != 0 && height[current] > height[stack[len(stack)-1]] {
+			top := height[stack[len(stack)-1]]
 			stack = stack[:len(stack)-1]
 			if len(stack) == 0 {
 				break
 			}
-			left := stack[len(stack)-1]
-			curWidth := i - left - 1
-			curHeight := min(height[left], h) - height[top]
-			ans += curWidth * curHeight
+			distance := current - stack[len(stack)-1] - 1
+			min := min(height[stack[len(stack)-1]], height[current])
+			res += distance * (min - top)
 		}
-		stack = append(stack, i)
+		stack = append(stack, current)
+		current++
 	}
-	return
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
+	return res
 }
 
 func main() {

@@ -16,7 +16,7 @@ func reverseBetween(head *ListNode, left int, right int) *ListNode {
 
 var successor *ListNode
 
-// reverseN 将链表的前n个节点反转
+// reverseN 将链表的前 n 个节点反转
 func reverseN(head *ListNode, n int) *ListNode {
 	if n == 1 {
 		successor = head.Next

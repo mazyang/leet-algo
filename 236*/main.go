@@ -6,6 +6,7 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
+// 最近公共祖先
 func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 	if root == nil {
 		return nil
