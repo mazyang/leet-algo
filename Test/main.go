@@ -2,31 +2,42 @@ package main
 
 import "fmt"
 
-// 单调递增栈：当前元素大于栈顶元素就一直出栈直到满足条件(当前元素大于栈顶元素或栈为空)
-func nextGreaterElement(nums []int) []int {
+func maximumSubarraySum(nums []int, k int) int64 {
 	n := len(nums)
-	res := make([]int, n)
-	var s []int
-	for i := n - 1; i >= 0; i-- {
-		// 如果当前元素后面的元素小于等于当前元素，出栈
-		for len(s) != 0 && s[len(s)-1] <= nums[i] {
-			s = s[:len(s)-1]
+	// 前缀和
+	arr1 := make([]int, n+1)
+	for i := 1; i <= n; i++ {
+		arr1[i] = arr1[i-1] + nums[i-1]
+	}
+	max := func(x, y int64) int64 {
+		if x > y {
+			return x
 		}
-		// 栈为空，不满足条件
-		if len(s) == 0 {
-			res[i] = -1
-		} else {
-			res[i] = s[len(s)-1]
+		return y
+	}
+	var res int64
+	for i := 0; i < n; i++ {
+		for j := 0; j <= i; j++ {
+			if i-j+1 == k && !judge(nums, j, i) {
+				res = max(res, int64(arr1[i+1]-arr1[j]))
+			}
 		}
-		s = append(s, nums[i])
 	}
 	return res
 }
 
-func main() {
-	arr := make([]int, 0)
-	for i := 0; i < 2000; i++ {
-		fmt.Println("len 为", len(arr), "cap 为", cap(arr))
-		arr = append(arr, i)
+func judge(nums []int, start, end int) bool {
+	hashMap := make(map[int]int)
+	for i := start; i <= end; i++ {
+		if _, ok := hashMap[nums[i]]; ok {
+			return true
+		}
+		hashMap[nums[i]]++
 	}
+	return false
+}
+
+func main() {
+	nums := []int{5, 1, 3}
+	fmt.Println(maximumSubarraySum(nums, 1))
 }
