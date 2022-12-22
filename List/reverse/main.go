@@ -79,6 +79,7 @@ func reverseKGroup(head *ListNode, k int) *ListNode {
 		b = b.Next
 	}
 	newHead := reverse(a, b)
+	// 反转之后，a变为最后一个节点，b变为下一个K个一组的链表的头节点
 	a.Next = reverseKGroup(b, k)
 	return newHead
 }
@@ -86,7 +87,7 @@ func reverseKGroup(head *ListNode, k int) *ListNode {
 // 方法二：迭代法
 func reverseKGroup2(head *ListNode, k int) *ListNode {
 	var reverse func(*ListNode, *ListNode) (*ListNode, *ListNode)
-	// 反转start end之间的元素，不包括end，返回反转之后的头节点和尾节点
+	// 反转start end之间的元素，包括end，返回反转之后的头节点和尾节点
 	reverse = func(start *ListNode, end *ListNode) (*ListNode, *ListNode) {
 		var prev, cur, next *ListNode = nil, start, end
 		for prev != end {
@@ -99,9 +100,9 @@ func reverseKGroup2(head *ListNode, k int) *ListNode {
 	}
 	dummyNode := &ListNode{Next: head}
 	// pre保存k个一组的链表的上一个节点
-	pre := dummyNode
+	pre, currHead := dummyNode, head
 
-	for head != nil {
+	for currHead != nil {
 		tail := pre
 		// tail 遍历到第k个节点
 		for i := 0; i < k; i++ {
@@ -114,12 +115,13 @@ func reverseKGroup2(head *ListNode, k int) *ListNode {
 		// 保存第k+1个节点
 		nex := tail.Next
 		// 反转从head到tail
-		head, tail = reverse(head, tail)
-		// 指向新的头节点
-		pre.Next = head
+		currHead, tail = reverse(currHead, tail)
+		// pre指向新的头节点
+		pre.Next = currHead
+		// 反转之后的尾节点的Next指向下一个节点
 		tail.Next = nex
 		pre = tail
-		head = tail.Next
+		currHead = tail.Next
 	}
 	return dummyNode.Next
 }

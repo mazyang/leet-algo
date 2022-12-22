@@ -2,7 +2,10 @@ package main
 
 import "fmt"
 
+// 所有可能的路径
+// 无环图，所有不使用visited数组
 func allPathsSourceTarget(graph [][]int) [][]int {
+	// graph[0] 存放节点0指向的所有节点
 	n := len(graph)
 	path := []int{0}
 	var res [][]int
